@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="table-style.css" />    
+    </h:head>
+    <h:body>
+          <h:form>
+            <table>
+                <tr>
+                    <td >
+                        <h:commandLink value="Market" 
+                                       action="#{marketManager.marketPage}"/>
+                    </td>
+                    <td>
+                        <h:commandLink value="Shopping Cart" style="margin-left:20px;"
+                                       action="#{marketManager.shoppingPage}"/>
+                    </td>
+                    <td>
+                        <h:commandLink value="History" style="margin-left:20px;"
+                                       action="#{marketManager.historyPage}"/>
+                    </td>
+                    <td>
+                        <h:commandLink value="Logout" style="margin-left:20px;"
+                                       action="#{marketManager.logout}" />
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+        <h:form rendered="#{marketManager.market}">
+            <h:dataTable value="#{marketManager.inventoryList}" var="inventory"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row">
+
+                <h:column>
+
+                    <!-- column header -->
+                    <f:facet name="header">Type</f:facet>
+                    <!-- row record -->
+                    #{inventory.gnome.type}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Price</f:facet>
+                    #{inventory.gnome.price}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Quantity</f:facet>
+                    #{inventory.amount}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandButton value="Add" 
+                                     action="#{marketManager.addGnome(inventory)}" />
+                </h:column>
+            </h:dataTable>
+            <table>
+                <tr>
+                    <td>
+                        <h:outputLabel value="Desired Unit:" rendered="#{marketManager.finalInventory!=null}"></h:outputLabel>        
+                    </td>
+                    <td>
+                        <h:inputText value="#{marketManager.quantityField}" rendered="#{marketManager.finalInventory!=null}" size="10"  />
+                    </td>
+                    <td>
+                        <h:commandButton value="Send to Cart" rendered="#{marketManager.finalInventory!=null}"
+                                     action="#{marketManager.addShoppingCart}" />
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+        <h:form rendered="#{marketManager.shoppingCart}">
+            <h:dataTable value="#{marketManager.shoppingList}" var="cart"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row">
+
+                <h:column>
+
+                    <!-- column header -->
+                    <f:facet name="header">Type</f:facet>
+                    <!-- row record -->
+                    #{cart.gnome.type}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Price</f:facet>
+                    #{cart.gnome.price}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Quantity</f:facet>
+                    #{cart.basketAmount}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandButton value="Remove" 
+                                     action="#{marketManager.removeFromCart(cart)}" />
+                </h:column>
+            </h:dataTable>            
+            <table>
+                <tr>
+                    
+        
+                    <td>
+                        <h:outputLabel value="Total Price: "></h:outputLabel><br/>
+                    </td>
+                    <td>
+                        <h:outputLabel value="#{marketManager.totalPrice}"></h:outputLabel><br/>                
+                    </td>
+                    <td>
+                        <h:commandButton value="Buy" 
+                                     action="#{marketManager.buy}" />
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+          <h:form rendered="#{marketManager.history}">
+            <h:dataTable value="#{marketManager.historyList}" var="buy"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row">
+                <h:column>
+                    <f:facet name="header">Type</f:facet>
+                    #{buy.gnome.type}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Price</f:facet>
+                    #{buy.gnome.price}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Quantity</f:facet>
+                    #{buy.basketAmount}
+                </h:column>
+            </h:dataTable>            
+        </h:form>
+        <h3 style="color: red">
+            <h:outputText value="#{marketManager.exception.message}" rendered="#{marketManager.exception!=null}" />
+        </h3>
+    </h:body>
+</html>
+
