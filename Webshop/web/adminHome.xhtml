@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>APG Webshop</title>
+        <h:outputStylesheet library="css" name="table-style.css" />    
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <table>
+                <tr>
+                    <td>
+                        <h:commandLink value="User Management" 
+                                       action="#{adminManager.userManagementPage}"/>
+                    </td>
+                    <td>
+                        <h:commandLink value="Inventory Management" style="margin-left:20px;"
+                                       action="#{adminManager.inventoryManagementPage}"/>
+                    </td>
+                    <td>
+                        <h:commandLink value="Logout" style="margin-left:20px;"
+                                       action="#{adminManager.logout}" />
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+        <h:form rendered="#{adminManager.inventoryManagement}">
+            <h:dataTable value="#{adminManager.inventoryList}" var="inventory"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row">
+
+                <h:column>
+
+                    <!-- column header -->
+
+                    <f:facet name="header">Type</f:facet>
+                    <!-- row record -->
+                    #{inventory.gnome.type}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Price</f:facet>
+                    #{inventory.gnome.price}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Quantity</f:facet>
+                    #{inventory.amount}
+                </h:column>
+                <h:column>
+
+                    <f:facet name="header">Action</f:facet>
+
+                    <h:commandButton value="Remove" 
+                                     action="#{adminManager.removeGnome(inventory)}" />
+
+                </h:column>
+            </h:dataTable>
+            <table>
+                <tr>
+                    <td>
+                        <h:outputLabel value="Type: "></h:outputLabel>
+                    </td>
+                    <td>
+                        <h:inputText value="#{adminManager.gnomeType}" size="10">
+                        </h:inputText>
+                    </td>
+                    <td>
+                        <h:outputLabel value="Price: "></h:outputLabel>
+                    </td>
+                    <td>
+                        <h:inputText value="#{adminManager.gnomePrice}" size="10"></h:inputText>
+                    </td>
+                    <td>
+                        <h:outputLabel value="Quantity: "></h:outputLabel>
+                    </td>
+                    <td>
+                        <h:inputText value="#{adminManager.gnomeQuantity}" size="10"></h:inputText>
+                    </td>
+                    <td>
+                        <h:commandButton value="Add" action="#{adminManager.addGnome}"></h:commandButton>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+        <h:form rendered="#{adminManager.userManagement}">
+            <h:dataTable value="#{adminManager.userList}" var="users"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row">
+
+                <h:column>
+
+                    <!-- column header -->
+
+                    <f:facet name="header">Username</f:facet>
+                    <!-- row record -->
+                    #{users.username}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Active</f:facet>
+                    #{adminManager.active[users.username]}
+                </h:column>
+                <h:column>
+
+                    <f:facet name="header">Action</f:facet>
+
+                    <h:commandButton value="Edit Access"  
+                                     action="#{adminManager.changeActive(users)}" />
+
+                </h:column>
+            </h:dataTable>
+        </h:form>
+        <h3 style="color: red">
+           <h:outputText value="#{adminManager.exception.message}" rendered="#{adminManager.exception!=null}" />
+        </h3>
+    </h:body>
+</html>
+
