@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>APG Webshop</title>
+        <h:outputStylesheet library="css" name="login-box.css" />    
+    </h:head>
+    <h:body>
+        <div style="padding: 100px 0 0 400px;">
+            <div id="login-box">
+                <h:form>
+                    <H2>Login</H2>
+                    Login to the APG Webshop
+                    <br />
+                    <br />
+                    <div id="login-box-name" style="margin-top:20px;">
+                        <h:outputLabel value="Username: "></h:outputLabel>
+                    </div>
+                    <div id="login-box-field" style="margin-top:20px;">
+                        <h:inputText id="username" class="form-login" value="#{loginManager.username}">
+                        </h:inputText>
+                    </div>
+                    <br />
+                    <br />
+                    <div id="login-box-name"><h:outputLabel value="Password: "></h:outputLabel></div>
+                    <div id="login-box-field"><h:inputSecret id="password" class="form-login" value="#{loginManager.password}"></h:inputSecret></div>
+                    <br />
+                    <br />
+                    <h:commandButton id="login" value="Login" action="#{loginManager.loginAccount}" style="margin-left:90px;"> 
+                        <f:param id="userId" name="userId" value="#{loginManager.user.username}"></f:param></h:commandButton>
+                    <h:commandButton  id ="register" value="register" action="register" />
+                    <h3 style="color: red">
+                        <h:outputText value="#{loginManager.exception.message}" rendered="#{loginManager.exception!=null}" />
+                    </h3>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
+
+
